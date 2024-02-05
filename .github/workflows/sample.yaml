@@ -8,9 +8,27 @@ on:
         default: "gitlab-1.0.0"
 
 jobs:
-  build:
-    runs-on: selfhosted
+  pre-pare:
+    runs-on: self-hosted
     
     steps:
-    - name: Say hello
-      run: echo "hello"
+    - name: check version
+      run: echo "${{ github.even.inputs.version }}"
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: docker login
+      run: docker login -u nukoolm -p "${{ secrets.DOCKER_PASS }}"
+
+  build:
+    runs-on: self-hosted
+    needs: pre-pare
+    steps:
+
+      - name: build image
+        run: docker build -t  nukoolm/sample-app:${{ github.even.inputs.version }}
+
+      - name: push image 
+        run: docker push nukoolm/sample-app:${{ github.even.inputs.version }}
+      
+      - name: clean local repos
+        run: docker rm nukoolm/sample-app:${{ github.even.inputs.version }}
