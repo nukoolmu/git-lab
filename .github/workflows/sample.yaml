@@ -30,5 +30,25 @@ jobs:
       - name: push image 
         run: docker push nukoolm/sample-app:${{ github.event.inputs.version }}
       
-      - name: clean local repos
-        run: docker rmi nukoolm/sample-app:${{ github.event.inputs.version }}
+#      - name: clean local repos
+#        run: docker rmi nukoolm/sample-app:${{ github.event.inputs.version }}
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: run container
+        run: |
+          echo "stop existing container"
+            docker stop myapp 2>dev/null
+          echo "start new container"
+            docker run -d -p 8080:80 --name myapp nukoolm/sample-app:${{ github.event.inputs.version }}
+          echo "deploy done"
+      - name: test
+        run: |
+          TEST_CMD=$(curl -iG localhost 2>/dev/null |grep 'HTTP/1.1 200 OK')
+          if [ -z "${TEST_CMD}"" ];then
+            echo "Test failed"
+          else
+            echo "Test Pass, Deployed success"
+          fi
