@@ -13,7 +13,7 @@ jobs:
     
     steps:
     - name: check version
-      run: echo "${{ github.even.inputs.version }}"
+      run: echo "${{ github.event.inputs.version }}"
     - name: checkout
       uses: actions/checkout@v3
     - name: docker login
@@ -25,10 +25,10 @@ jobs:
     steps:
 
       - name: build image
-        run: docker build -t  nukoolm/sample-app:${{ github.even.inputs.version }}
+        run: docker build -t  nukoolm/sample-app:${{ github.event.inputs.version }}
 
       - name: push image 
-        run: docker push nukoolm/sample-app:${{ github.even.inputs.version }}
+        run: docker push nukoolm/sample-app:${{ github.event.inputs.version }}
       
       - name: clean local repos
-        run: docker rm nukoolm/sample-app:${{ github.even.inputs.version }}
+        run: docker rm nukoolm/sample-app:${{ github.event.inputs.version }}
