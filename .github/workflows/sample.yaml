@@ -1,9 +1,15 @@
 name: Hello Action
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Message to print'
+        required: true
+        default: "gitlab-1.0.0"
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: selfhosted
     
     steps:
     - name: Say hello
