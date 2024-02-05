@@ -40,7 +40,7 @@ jobs:
       - name: run container
         run: |
           echo "stop existing container"
-            docker stop myapp 2>dev/null
+            docker stop myapp 2>/dev/null
           echo "start new container"
             docker run -d -p 8080:80 --name myapp nukoolm/sample-app:${{ github.event.inputs.version }}
           echo "deploy done"
