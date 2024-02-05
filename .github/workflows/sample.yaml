@@ -53,7 +53,7 @@ jobs:
       - name: test
         run: |
           TEST_CMD=$(curl -iG localhost 2>/dev/null |grep 'HTTP/1.1 200 OK')
-          if [ -z "${TEST_CMD}"" ];then
+          if [ -z "${TEST_CMD}" ];then
             echo "Test failed"
           else
             echo "Test Pass, Deployed success"
