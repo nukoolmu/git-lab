@@ -31,4 +31,4 @@ jobs:
         run: docker push nukoolm/sample-app:${{ github.event.inputs.version }}
       
       - name: clean local repos
-        run: docker rm nukoolm/sample-app:${{ github.event.inputs.version }}
+        run: docker rmi nukoolm/sample-app:${{ github.event.inputs.version }}
